@@ -1,12 +1,11 @@
 import os
-from ament_index_python.packages import get_package_share_directory
-from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription
 from launch.substitutions import LaunchConfiguration
-
+from ament_index_python.packages import get_package_share_directory
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
 
@@ -37,18 +36,14 @@ def generate_launch_description():
         package='slam_toolbox',
         executable='async_slam_toolbox_node',
         name='slam_toolbox',
-        parameters=[params_file, {'use_sim_time': use_sim_time}],
         output='screen')
-
-
 
     # Launch them all!
     return LaunchDescription([
         DeclareLaunchArgument(name='world', default_value=world_path,description='world_path'),
         DeclareLaunchArgument('use_sim_time',default_value='True',description='Use sim time if true'),
-        DeclareLaunchArgument(name='params_file', default_value=params_file,description='parameters for slam_toolbox_node'),
         rsp,
         gazebo,
         spawn_entity,
         start_async_slam_toolbox_node
-    ])
+        ])
